@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float heroSpeed;
     public float jumpForce;
     public Transform groundTester;
+    public LayerMask layersToTest;
     float horizontalMove;
     Animator anim;
     Rigidbody2D rgBody;
@@ -15,7 +16,8 @@ public class PlayerController : MonoBehaviour
     //Czy bohater dotyka ziemi
     bool onTheGround;
     float radius = 0.1f;
-    
+    public Transform startPoint;
+
 
     private void Start()
     {
@@ -25,8 +27,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("cactusController"))
+        {
+            rgBody.velocity = Vector2.zero;//postac zeruje predkosc
+            return;
+        }
         //Czy bohater dotyka ziemi 
-        onTheGround = Physics2D.OverlapCircle(groundTester.position, radius);
+        onTheGround = Physics2D.OverlapCircle(groundTester.position, radius,layersToTest);
 
         horizontalMove = Input.GetAxis("Horizontal");
         rgBody.velocity = new Vector2(horizontalMove * heroSpeed, rgBody.velocity.y); 
@@ -55,5 +62,9 @@ public class PlayerController : MonoBehaviour
         Vector3 heroScale = gameObject.transform.localScale;
         heroScale.x *= -1;
         gameObject.transform.localScale = heroScale;
+    }
+    public void RestartHero()
+    {
+        gameObject.transform.position = startPoint.position;
     }
 }
