@@ -5,6 +5,9 @@ using UnityEngine;
 public class PickUpBox : MonoBehaviour
 {
     CounterController counterController;
+    public AudioClip clip;
+    public GameObject particlesPrefab;
+
     private void Start()
     {
         //Szukamy obiektu manager , a w nim skrypt Inkrementacji
@@ -19,7 +22,9 @@ public class PickUpBox : MonoBehaviour
         if (other.gameObject.name == "Girl")
         {
             Destroy(this.gameObject);
+            AudioSource.PlayClipAtPoint(clip, transform.position);
             counterController.IncrementCounter();
+            Instantiate(particlesPrefab, transform.position, transform.rotation);
         }
     }
 }

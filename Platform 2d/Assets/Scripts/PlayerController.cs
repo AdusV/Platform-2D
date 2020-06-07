@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     bool onTheGround;
     float radius = 0.1f;
     public Transform startPoint;
+    //Dzwiek
+    public AudioClip clip;
 
 
     private void Start()
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) && onTheGround)
         {
+            AudioSource.PlayClipAtPoint(clip, transform.position);
             rgBody.AddForce(new Vector2(0f, jumpForce));
             anim.SetTrigger("jump");
         }
